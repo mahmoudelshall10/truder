@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Valuestore\Valuestore;
 
-class Settings extends Model
+class Settings extends Valuestore
 {
     use HasFactory;
 }

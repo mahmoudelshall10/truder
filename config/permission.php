@@ -140,4 +140,19 @@ return [
 
         'store' => 'default',
     ],
+
+    'modules' => [
+        'permissions',
+        'roles',
+        'users',
+    ],
+    
+    'permissions' => 
+    [
+        'index',
+        'create',
+        'show',
+        'edit',
+        'destroy'
+    ],
 ];
