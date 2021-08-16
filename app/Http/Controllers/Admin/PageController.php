@@ -6,6 +6,7 @@ use App\Models\Page;
 use App\Models\Block;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PageBlocks;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
@@ -172,12 +173,12 @@ class PageController extends Controller
         $page   = Page::find($id);
         if($page->active === 1)
         {
-            $page->update(['active'=>0]);
+            $page->update(['active' => 0]);
             return redirect()->route('admin.pages.index')
                 ->with('success','Page deactivated successfully');
 
         }else if($page->active === 0){
-            $page->update(['active'=>1]);
+            $page->update(['active' => 1]);
             return redirect()->route('admin.pages.index')
                 ->with('success','Page activated successfully');
         }
@@ -186,9 +187,24 @@ class PageController extends Controller
 
     public function pageBlockIndex($id)
     {
-        $blocks   = Page::with('manyblocks')->find($id)->manyblocks;
-        return $blocks;
-        return view('admin.pages.blocks.index',compact('page'));
+        $blocks   = Page::with('manyblocks')->find($id);
+        return view('admin.pages.blocks.index',compact('blocks'));
+    }
 
+    public function pageBlockShow($id,$block_id){
+        $block = PageBlocks::where('page_id',$id)->where('block_id',$block_id)->first();
+
+        return view('admin.pages.blocks.show',compact('block'));
+    }
+
+    public function pageBlockEdit($id,$block_id){
+        $block = PageBlocks::where('page_id',$id)->where('block_id',$block_id)->first();
+
+        return view('admin.pages.blocks.edit',compact('block'));
+    }
+
+    public function pageBlockUpdate($id,$block_id)
+    {
+        # code...
     }
 }

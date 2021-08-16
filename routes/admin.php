@@ -21,6 +21,9 @@ Config::set('auth.defaults.guard','web');
             Route::resource('pages', 'PageController');
             Route::post('pages/{id}','PageController@pageActive')->name('pages.active');
             Route::get('pages/{id}/blocks','PageController@pageBlockIndex')->name('pages.blocks.index');
+            Route::get('pages/{id}/blocks/{block_id}','PageController@pageBlockShow')->name('pages.blocks.show');
+            Route::get('pages/{id}/blocks/{block_id}/edit','PageController@pageBlockEdit')->name('pages.blocks.edit');
+            Route::patch('pages/{id}/blocks/{block_id}','PageController@pageBlockUpdate')->name('pages.blocks.update');
             //pages
 
             //block
