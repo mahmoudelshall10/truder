@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('page-title') Show Article @endsection
+@section('page-title') Show Page @endsection
 @section('content')
 
   <!-- Content Wrapper. Contains page content -->

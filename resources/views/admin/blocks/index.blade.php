@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('page-title') Index Article @endsection
+@section('page-title') Index Block @endsection
 @section('content')
 
   <!-- Content Wrapper. Contains page content -->
@@ -13,7 +13,7 @@
               @can('admin.dashboards.index')
                 <li class="breadcrumb-item"><a href="{{route('admin.dashboards.index')}}">Home</a></li>
               @endcan
-              <li class="breadcrumb-item active">Articles</li>
+              <li class="breadcrumb-item active">Blocks</li>
             </ol>
           </div>
         </div>
@@ -27,8 +27,8 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Articles Data Table 
-                  <a href="{{route('admin.articles.create')}}" class="btn btn-primary">Create</a>
+              <h3 class="card-title">Blocks Data Table 
+                  <a href="{{route('admin.blocks.create')}}" class="btn btn-primary">Create</a>
               </h3>
             </div>
             <!-- /.card-header -->
@@ -36,25 +36,38 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Title</th>
+                  <th>Name</th>
+                  @can('admin.blocks.active')
+                  <th>Active</th>
+                  @endcan
+                  <th>Created By</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($articles as $article)
+                @foreach ($blocks as $block)
                 <tr>
-                  <td>{{ $article->title }}</td>
+                  <td>{{ $block->name }}</td>
+                  @can('admin.blocks.active')
                     <td>
-                        @can('admin.articles.show')
-                            <a href="{{route('admin.articles.show',$article->id)}}"><i class="fas fa-eye"></i></a>
+                      <form action="{{route('admin.blocks.active',$block->id)}}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success">{{ $block->active == 1 ? 'Active' : 'Desactive'}}</button>
+                      </form>
+                    </td>
+                  @endcan
+                  <td>{{ $block->createdBy->name }}</td>
+                    <td>
+                        @can('admin.blocks.show')
+                            <a href="{{route('admin.blocks.show',$block->id)}}"><i class="fas fa-eye"></i></a>
                         @endcan
 
-                        @can('admin.articles.edit')
-                            <a href="{{route('admin.articles.edit',$article->id)}}"><i class="fas fa-pencil-alt"></i></a>
+                        @can('admin.blocks.edit')
+                            <a href="{{route('admin.blocks.edit',$block->id)}}"><i class="fas fa-pencil-alt"></i></a>
                         @endcan
-                        @can('admin.articles.destroy')
-                            <a href="#deModal{{$article->id}}" data-toggle="modal"><i class="fa fa-trash"></i></a>
-                            <div class="modal fade" id="deModal{{$article->id}}" role="dialog">
+                        @can('admin.blocks.destroy')
+                            <a href="#deModal{{$block->id}}" data-toggle="modal"><i class="fa fa-trash"></i></a>
+                            <div class="modal fade" id="deModal{{$block->id}}" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -68,7 +81,7 @@
                                             <p>Are you sure you want to delete this record?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <form method="POST"  action="{{route('admin.articles.destroy',$article->id)}}">
+                                            <form method="POST"  action="{{route('admin.blocks.destroy',$block->id)}}">
                                                 @csrf
                                                 @method('Delete')
                                                 <button type="submit" class="btn btn-danger">Confirm</button>

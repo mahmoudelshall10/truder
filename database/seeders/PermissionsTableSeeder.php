@@ -14,7 +14,8 @@ class PermissionsTableSeeder extends Seeder
      *
      * @return void
      */
-    public $list = ['dashboards.index','profile','generalInfo','changeImage','changePassword','settings.index'];
+    public $list = ['dashboards.index','profile','generalInfo','changeImage','changePassword'
+                    ,'settings.index','pages.active','blocks.active'];
 
     // public $visitor = ['all-articles.index'];
 

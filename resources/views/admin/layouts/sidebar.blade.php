@@ -49,16 +49,7 @@
             </li>
           @endcan
 
-          @can(['admin.comments.index'])
-            <li class="nav-item">
-              <a href="{{ route('admin.comments.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-comment"></i>
-                <p>
-                  Comments
-                </p>
-              </a>
-            </li>
-          @endcan
+   
 
           @canany(['admin.categories.index','admin.categories.create'])
             <li class="nav-item has-treeview {{ request()->routeIs('admin.categories.*')  ? 'menu-open' : ''}}">
@@ -150,27 +141,27 @@
             </li>
           @endcanany
 
-          @canany(['admin.articles.index','admin.articles.create'])
-            <li class="nav-item has-treeview {{ request()->routeIs('admin.articles.*')  ? 'menu-open' : ''}}">
+          @canany(['admin.pages.index','admin.pages.create'])
+            <li class="nav-item has-treeview {{ request()->routeIs('admin.pages.*')  ? 'menu-open' : ''}}">
               <a href="#" class="nav-link">
                 <i class="fas fa-newspaper"></i>
-                <p>
-                  Articles
+                <p> 
+                  Pages
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                @can(['admin.articles.index'])
+                @can(['admin.pages.index'])
                   <li class="nav-item">
-                    <a href="{{ route('admin.articles.index') }}" class="nav-link {{ request()->routeIs('admin.articles.index')  ? 'active' : ''}}">
+                    <a href="{{ route('admin.pages.index') }}" class="nav-link {{ request()->routeIs('admin.pages.index')  ? 'active' : ''}}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Index</p>
                     </a>
                   </li>
                 @endcan
-                @can(['admin.articles.create'])
+                @can(['admin.pages.create'])
                 <li class="nav-item">
-                  <a href="{{ route('admin.articles.create') }}" class="nav-link {{ request()->routeIs('admin.articles.create')  ? 'active' : ''}}">
+                  <a href="{{ route('admin.pages.create') }}" class="nav-link {{ request()->routeIs('admin.pages.create')  ? 'active' : ''}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Create</p>
                   </a>
@@ -179,6 +170,36 @@
               </ul>
             </li>
           @endcanany
+
+          @canany(['admin.blocks.index','admin.blocks.create'])
+          <li class="nav-item has-treeview {{ request()->routeIs('admin.blocks.*')  ? 'menu-open' : ''}}">
+            <a href="#" class="nav-link">
+              <i class="fas fa-code"></i>
+              <p>
+                Blocks
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @can(['admin.blocks.index'])
+                <li class="nav-item">
+                  <a href="{{ route('admin.blocks.index') }}" class="nav-link {{ request()->routeIs('admin.blocks.index')  ? 'active' : ''}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Index</p>
+                  </a>
+                </li>
+              @endcan
+              @can(['admin.blocks.create'])
+              <li class="nav-item">
+                <a href="{{ route('admin.blocks.create') }}" class="nav-link {{ request()->routeIs('admin.blocks.create')  ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create</p>
+                </a>
+              </li>
+              @endcan
+            </ul>
+          </li>
+        @endcanany
 
 
         </ul>

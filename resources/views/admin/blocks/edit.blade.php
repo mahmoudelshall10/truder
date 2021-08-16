@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('page-title') Edit Articale @endsection
+@section('page-title') Edit Page @endsection
 @section('content')
 
 

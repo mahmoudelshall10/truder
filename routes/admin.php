@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 Config::set('auth.defaults.guard','web');
 
@@ -10,11 +11,23 @@ Config::set('auth.defaults.guard','web');
     Route::post('logout','LoginController@logout')->name('logout');
 
      Route::group(['middleware'=>'admin'],function(){
+            
             Route::get('/','DashboardController@index')->name('dashboards.index');
 
             Route::resource('roles', 'RoleController');
             Route::resource('permissions', 'PermissionController');
             Route::resource('settings', 'SettingsController');
+            //pages
+            Route::resource('pages', 'PageController');
+            Route::post('pages/{id}','PageController@pageActive')->name('pages.active');
+            Route::get('pages/{id}/blocks','PageController@pageBlockIndex')->name('pages.blocks.index');
+            //pages
+
+            //block
+            Route::resource('blocks', 'BlockController');
+            Route::post('blocks/{id}','BlockController@blockActive')->name('blocks.active');
+            //block
+
             // account
             Route::get('profile', 'AccountController@index')->name('account');
             Route::post('/general-info', "AccountController@store")->name('generalInfo');
