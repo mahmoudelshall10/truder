@@ -1,5 +1,5 @@
 <template>
-    <div class="col-lg-12">
+    <div class="col-lg-12" style="padding:25px">
         <form>
             <div class="form-group">
                 <label for="">Email</label>
