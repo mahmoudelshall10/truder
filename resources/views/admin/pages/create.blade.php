@@ -54,6 +54,16 @@
                     <label for="exampleInputURL">URL</label>
                     <input type="text" class="form-control" name="url" id="exampleInputURL" placeholder="Enter URL" value="{{ old('url') }}">
                   </div>
+
+                  <div class="form-group">
+                    <label for="parent_id">Parent Page</label>
+                    <select name="parent_id" id="parent_id" class="form-control">
+                      <option value="">Choose Parent Page</option>
+                      @foreach ($parent_page as $page)
+                          <option value="{{ $page->id }}" {{ $page->id === old('parent_id') ? 'selected':'' }}>{{ $page->name }}</option>
+                      @endforeach
+                    </select>
+                  </div>
                   
                   <div class="form-group">
                     <label for="exampleInputURL">Page Blocks</label>

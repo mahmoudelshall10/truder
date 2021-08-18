@@ -19,6 +19,8 @@ class CreatePagesTable extends Migration
             $table->string('slug');
             $table->string('url');
             $table->tinyInteger('active')->default(1);
+            $table->unsignedBigInteger('parent_id');
+            $table->foreign('parent_id')->references('id')->on('pages')->onDelete('cascade');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

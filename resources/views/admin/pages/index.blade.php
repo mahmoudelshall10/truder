@@ -39,6 +39,7 @@
                   <th>Name</th>
                   <th>Slug</th>
                   <th>URl</th>
+                  <th>Parent Page</th>
                   @can('admin.pages.active')
                   <th>Active</th>
                   @endcan
@@ -53,6 +54,7 @@
                   <td>{{ $page->name }}</td>
                   <td>{{ $page->slug }}</td>
                   <td>{{ $page->url }}</td>
+                  <td>{{ $page->parent ? $page->parent->name : 'Parent Page'  }}</td>
                   @can('admin.pages.active')
                   <td>
                     <form action="{{route('admin.pages.active',$page->id)}} method="post">

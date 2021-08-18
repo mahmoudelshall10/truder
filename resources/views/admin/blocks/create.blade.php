@@ -49,6 +49,16 @@
                     <label for="exampleInputLayout">Layout</label>
                     <textarea name="layout" id="" cols="30" rows="10" class="form-control textarea" placeholder="Enter Layout">{{ old('layout') }}</textarea>
                   </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="photo">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
                   
                 </div>
                 <!-- /.card-body -->

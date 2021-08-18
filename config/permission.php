@@ -146,7 +146,8 @@ return [
         'roles',
         'users',
         'pages',
-        'blocks'
+        'blocks',
+        'pages.blocks'
     ],
     
     'permissions' => 

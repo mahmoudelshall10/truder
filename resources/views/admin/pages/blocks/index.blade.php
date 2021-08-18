@@ -13,7 +13,10 @@
               @can('admin.dashboards.index')
                 <li class="breadcrumb-item"><a href="{{route('admin.dashboards.index')}}">Home</a></li>
               @endcan
-              <li class="breadcrumb-item active">Pages</li>
+              @can('admin.pages.index')
+                <li class="breadcrumb-item"><a href="{{route('admin.pages.index')}}">Pages</a></li>
+              @endcan
+              <li class="breadcrumb-item active">Index</li>
             </ol>
           </div>
         </div>
@@ -44,10 +47,10 @@
                   <td>{{ $block->block->name }}</td>
                   <td>
                       @can('admin.pages.blocks.show')
-                        <a href="{{route('admin.pages.blocks.show',$block->page_id)}}"><i class="fas fa-eye"></i></a>
+                        <a href="{{route('admin.pages.blocks.show',[$block->page_id,$block->block_id])}}"><i class="fas fa-eye"></i></a>
                       @endcan
                       @can('admin.pages.blocks.edit')
-                        <a href="{{route('admin.pages.blocks.edit',$block->page_id)}}"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="{{route('admin.pages.blocks.edit',[$block->page_id,$block->block_id])}}"><i class="fas fa-pencil-alt"></i></a>
                       @endcan
                   </td>
                 </tr>

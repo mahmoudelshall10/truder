@@ -17,6 +17,7 @@ class CreateBlocksTable extends Migration
             $table->id();
             $table->string('name');
             $table->longText('layout');
+            $table->string('photo');
             $table->tinyInteger('active')->default(1);
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

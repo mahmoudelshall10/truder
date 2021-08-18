@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('page-title') Edit Page @endsection
+@section('page-title') Edit Block @endsection
 @section('content')
 
 
@@ -14,8 +14,8 @@
               @can('admin.dashboards.index')
               <li class="breadcrumb-item"><a href="{{route('admin.dashboards.index')}}">Home</a></li>
               @endcan
-              @can('admin.articles.index')
-                <li class="breadcrumb-item"><a href="{{route('admin.articles.index')}}">Article</a></li>
+              @can('admin.pages.index')
+                <li class="breadcrumb-item"><a href="{{route('admin.blocks.index')}}">Block</a></li>
               @endcan
               <li class="breadcrumb-item active">Edit</li>
             </ol>
@@ -32,46 +32,38 @@
         <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Article Edit</h3>
+                <h3 class="card-title">Block Edit</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="{{ route('admin.articles.update',$article->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
+              <form role="form" action="{{ route('admin.blocks.update',$block->id) }}" method="POST" enctype="multipart/form-data">
                 @method('patch')
+                @csrf
                 <div class="card-body">
-                  <div class="form-group">
-                    <label for="exampleInputTitle1">Title</label>
-                    <input type="text" class="form-control" name="title" id="exampleInputTitle1" placeholder="Enter Title" value="{{ $article->title }}">
-                  </div>
 
-                  
                   <div class="form-group">
-                    <label for="categoryId">Category</label>
-                    <select name="category_id" id="categoryId" class="form-control">
-                        <option value="">Choose Category</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ $category->id ===  $article->category_id ? 'selected' : ''}}>{{ $category->name }}</option>
-                        @endforeach
-                    </select>
+                    <label for="exampleInputName">Name</label>
+                    <input type="text" class="form-control" name="name" id="exampleInputName" placeholder="Enter Name" value="{{ $block->name }}">
                   </div>
 
                   <div class="form-group">
-                    <label for="exampleInputFile">Image</label>
+                    <label for="exampleInputFile">File input</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="photo">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                     </div>
-                    <hr>
-                    <img src="{{ url('/') . '/' .  $article->image }}" alt="{{ $article->title }}" style="width: 100px;height:100px">
                   </div>
 
-                  <div class="form-group">
-                      <label for="exampleInputPost">Post</label>
-                      <textarea name="post" id="exampleInputPost" cols="30" rows="10" class="form-control textarea">{{ $article->post }}</textarea>
-                  </div>
+                    <br>
+                    
+                    <div class="row no-gutters mt-1">
+                        <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                            <img src="{{url('/').'/'.$block->photo}}" class="img-fluid pr-2" alt="{{$block->name}}">
+                        </div>
+					          </div>
+                  
                 </div>
                 <!-- /.card-body -->
 

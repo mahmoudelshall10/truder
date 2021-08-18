@@ -6,6 +6,7 @@ use App\Models\Block;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class BlockController extends Controller
 {
@@ -53,12 +54,14 @@ class BlockController extends Controller
         [
             'name'     => 'required|string|unique:blocks,name|max:191',
             'layout'   => 'required',
+            'photo'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ];
 
         $names = 
         [
             'name'   => 'Name',
-            'layout' => 'Layout'
+            'layout' => 'Layout',
+            'photo'  => 'Photo'
         ];
 
         $this->validate(request(),$rules, [],$names);
@@ -67,6 +70,7 @@ class BlockController extends Controller
         $block->name       = $request->name;
         $block->layout     = html_entity_decode($request->layout);
         $block->created_by = Auth::id();
+        $block->photo      = storeImage($request ,'photo' , 'storage/app/blocks_photos/', $block->created_by, 'blocks');
         $block->save();
 
         return redirect()->route('admin.blocks.index')
@@ -110,22 +114,26 @@ class BlockController extends Controller
     {
         $rules = 
         [
-            'name'     => 'required|string|unique:blocks,name|max:191',
-            'layout'   => 'required',
+            'name'     => 'required|string|max:191|unique:blocks,name,'.$id,
+            'photo'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ];
 
         $names = 
         [
             'name'   => 'Name',
-            'layout' => 'Layout'
+            'photo'  => 'Photo'
         ];
 
         $this->validate(request(),$rules, [],$names);
 
         $block             = Block::find($id);
         $block->name       = $request->name;
-        $block->layout     = html_entity_decode($request->layout);
-        $block->save();
+        if($block->photo != null)
+        {
+            File::delete($block->photo); // delete previous image from folder   
+        }
+        $block->photo  = storeImage($request ,'photo' , 'storage/app/blocks_photos/', $block->created_by, 'blocks');
+        $block->update();
 
         return redirect()->route('admin.blocks.index')
             ->with('success','Block updated successfully');

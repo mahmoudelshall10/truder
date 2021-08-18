@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Page extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','slug','url','created_by'];
+    protected $fillable = ['name','slug','url','parent_id','created_by'];
 
 
     public function createdBy()
@@ -35,5 +35,15 @@ class Page extends Model
     public function manyblocks()
     {
         return $this->hasMany(PageBlocks::class, 'block_id');
+    }
+
+    /**
+     * Get the parent that owns the Page
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Page::class, 'parent_id');
     }
 }

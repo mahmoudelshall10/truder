@@ -14,8 +14,8 @@
               @can('admin.dashboards.index')
               <li class="breadcrumb-item"><a href="{{route('admin.dashboards.index')}}">Home</a></li>
               @endcan
-              @can('admin.articles.index')
-                <li class="breadcrumb-item"><a href="{{route('admin.articles.index')}}">Article</a></li>
+              @can('admin.pages.index')
+                <li class="breadcrumb-item"><a href="{{route('admin.pages.index')}}">Page</a></li>
               @endcan
               <li class="breadcrumb-item active">Edit</li>
             </ol>
@@ -32,46 +32,56 @@
         <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Article Edit</h3>
+                <h3 class="card-title">Page Create</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="{{ route('admin.articles.update',$article->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
+              <form role="form" action="{{ route('admin.pages.update',$page->id) }}" method="POST" enctype="multipart/form-data">
                 @method('patch')
+                @csrf
                 <div class="card-body">
+
                   <div class="form-group">
-                    <label for="exampleInputTitle1">Title</label>
-                    <input type="text" class="form-control" name="title" id="exampleInputTitle1" placeholder="Enter Title" value="{{ $article->title }}">
+                    <label for="exampleInputName">Name</label>
+                    <input type="text" class="form-control" name="name" id="exampleInputName" placeholder="Enter Name" value="{{ $page->name }}">
                   </div>
 
-                  
                   <div class="form-group">
-                    <label for="categoryId">Category</label>
-                    <select name="category_id" id="categoryId" class="form-control">
-                        <option value="">Choose Category</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ $category->id ===  $article->category_id ? 'selected' : ''}}>{{ $category->name }}</option>
-                        @endforeach
+                    <label for="exampleInputSlug">Slug</label>
+                    <input type="text" class="form-control" name="slug" id="exampleInputSlug" placeholder="Enter Slug" value="{{ $page->slug}}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputURL">URL</label>
+                    <input type="text" class="form-control" name="url" id="exampleInputURL" placeholder="Enter URL" value="{{ $page->url }}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="parent_id">Parent Page</label>
+                    <select name="parent_id" id="parent_id" class="form-control">
+                      <option value="">Choose Parent Page</option>
+                      @foreach ($parent_page as $sPage)
+                          <option value="{{ $sPage->id }}" {{ $sPage->id === $page->parent_id ? 'selected':'' }}>{{ $page->name }}</option>
+                      @endforeach
                     </select>
                   </div>
-
+                  
                   <div class="form-group">
-                    <label for="exampleInputFile">Image</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                    <label for="exampleInputURL">Page Blocks</label>
+                    <div class="form-row">
+                      @foreach($blocks as $value)
+                      <div class="form-group col-md-4">     
+                        <label class="custom-control custom-checkbox m-0">
+                          {{ Form::checkbox('blocks[]', $value->id, 
+                           in_array($value->id, $pageblocks) ? true : false,
+                           array('class' => 'custom-control-input')) }}
+                          <span class="custom-control-label">{{ $value->name }}</span>
+                        </label>
                       </div>
+                      @endforeach
                     </div>
-                    <hr>
-                    <img src="{{ url('/') . '/' .  $article->image }}" alt="{{ $article->title }}" style="width: 100px;height:100px">
                   </div>
-
-                  <div class="form-group">
-                      <label for="exampleInputPost">Post</label>
-                      <textarea name="post" id="exampleInputPost" cols="30" rows="10" class="form-control textarea">{{ $article->post }}</textarea>
-                  </div>
+                  
                 </div>
                 <!-- /.card-body -->
 

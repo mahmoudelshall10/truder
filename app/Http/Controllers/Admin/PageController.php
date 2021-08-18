@@ -20,6 +20,11 @@ class PageController extends Controller
         $this->middleware('permission:admin.pages.active', ['only' => ['store']]);
         $this->middleware('permission:admin.pages.edit', ['only' => ['edit','update']]);
         $this->middleware('permission:admin.pages.destroy', ['only' => ['destroy']]);
+
+        $this->middleware('permission:admin.pages.blocks.index|admin.pages.blocks.edit|admin.pages.blocks.destroy', ['only' => ['index','store']]);
+        $this->middleware('permission:admin.pages.blocks.index', ['only' => ['index']]);
+        $this->middleware('permission:admin.pages.blocks.edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:admin.pages.blocks.destroy', ['only' => ['destroy']]);
     }
 
     /**
@@ -40,8 +45,9 @@ class PageController extends Controller
      */
     public function create()
     {
-        $blocks = Block::where('active',1)->get();
-        return view('admin.pages.create',compact('blocks'));
+        $blocks      = Block::where('active',1)->get();
+        $parent_page = Page::where('active',1)->get(); 
+        return view('admin.pages.create',compact(['blocks','parent_page']));
     }
 
     /**
@@ -54,19 +60,24 @@ class PageController extends Controller
     {
         $rules = 
         [
-            'name'     => 'required|string|unique:pages,name|max:191',
-            'slug'     => 'required|string|unique:pages,slug|max:191',
-            'url'      => 'required|string|unique:pages,url|max:191',
-            'blocks'   => 'required|array|max:1',
-            'blocks.*' => 'required|integer|exists:blocks,id'
+            'name'      => 'required|string|unique:pages,name|max:191',
+            'slug'      => 'required|string|unique:pages,slug|max:191',
+            'url'       => 'required|string|unique:pages,url|max:191',
+            'blocks'    => 'required|array|max:1',
+            'blocks.*'  => 'required|integer|exists:blocks,id'
         ];
+
+        if($request->parent_id){
+            $rules['parent_id'] = 'required|integer|exists:pages,id';
+        }
 
         $names = 
         [
-            'name'   => 'Name',
-            'slug'   => 'Slug',
-            'url'    => 'URL',
-            'blocks' => 'Blocks'
+            'name'      => 'Name',
+            'slug'      => 'Slug',
+            'url'       => 'URL',
+            'parent_id' =>' Parent Page',
+            'blocks'    => 'Blocks'
         ];
 
         $this->validate(request(),$rules, [],$names);
@@ -76,6 +87,11 @@ class PageController extends Controller
         $page->slug = $request->slug;
         $page->url  = $request->url;
         $page->created_by = Auth::id();
+
+        if($request->parent_id){
+            $page->parent_id = $request->parent_id;
+        }
+
         $page->save();
 
         $page->blocks()->attach($request->blocks);
@@ -92,9 +108,10 @@ class PageController extends Controller
      * @param  \App\Models\Page  $page
      * @return \Illuminate\Http\Response
      */
-    public function show(Page $page)
+    public function show($id)
     {
-        //
+        $page = Page::find($id);
+        return view('admin.pages.show',compact(['page']));
     }
 
     /**
@@ -103,9 +120,13 @@ class PageController extends Controller
      * @param  \App\Models\Page  $page
      * @return \Illuminate\Http\Response
      */
-    public function edit(Page $page)
+    public function edit($id)
     {
-        //
+        $page = Page::find($id);
+        $pageblocks = PageBlocks::where('block_id',$id)->pluck('block_id')->toArray();
+        $blocks = Block::where('active',1)->get();
+        $parent_page = Page::where('active',1)->get(); 
+        return view('admin.pages.edit',compact(['page','blocks','pageblocks'],'parent_page'));
     }
 
     /**
@@ -128,6 +149,10 @@ class PageController extends Controller
             'blocks.*' => 'required|integer|exists:blocks,id'
         ];
 
+        if($request->parent_id){
+            $rules['parent_id'] = 'required|integer|exists:pages,id';
+        }
+
         $names = 
         [
             'name'   => 'Name',
@@ -141,6 +166,11 @@ class PageController extends Controller
         $page->name = $request->name;
         $page->slug = $request->slug;
         $page->url  = $request->url;
+        
+        if($request->parent_id){
+            $page->parent_id = $request->parent_id;
+        }
+
         $page->update();
 
         $page->blocks()->sync($request->blocks);
@@ -203,8 +233,31 @@ class PageController extends Controller
         return view('admin.pages.blocks.edit',compact('block'));
     }
 
-    public function pageBlockUpdate($id,$block_id)
+    public function pageBlockUpdate(Request $request,$id,$block_id)
     {
-        # code...
+        // $block = PageBlocks::where('page_id',$id)->where('block_id',$block_id)->first();
+        $block = Block::find($block_id);
+
+
+        $rules=
+        [
+            'layout' => 'required'
+        ];
+        
+        $names = 
+        [
+            'layout' => 'Layout'
+        ];
+        
+        $this->validate(request(),$rules, [],$names);
+
+        // 
+
+        $block->pages()->attach($request->layout);
+
+        return redirect()->route('admin.pages.index')
+            ->with('success','Page block updated successfully');
+
+
     }
 }

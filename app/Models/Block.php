@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Block extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','active','layout','created_by'];
+    protected $fillable = ['name','active','layout','photo','created_by'];
 
      /**
      * The pages that belong to the Page

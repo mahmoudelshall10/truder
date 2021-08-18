@@ -41,6 +41,21 @@
                         <input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{settings('name')}}"/>
                     </div>
 
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" name="description" class="form-control" placeholder="Enter Description" value="{{settings('description')}}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="number" name="phone" class="form-control" placeholder="Enter Phone" value="{{settings('phone')}}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input type="text" name="author" class="form-control" placeholder="Enter Author" value="{{settings('author')}}"/>
+                    </div>
+
                     <hr>
 
                     <div class="form-row">

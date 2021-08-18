@@ -39,13 +39,19 @@ class SettingsController extends Controller
         $rules = 
         [
             'name'             => 'nullable|string', 
+            'description'      => 'nullable|string', 
+            'author'           => 'nullable|string', 
             'logo'             => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'icon'             => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+            'phone'            => 'nullable|regex:/(01)[0-9]{9}/',
         ];
 
         $names = 
         [
             'name'             =>'Name', 
+            'description'      =>'Description', 
+            'author'           =>'Author', 
+            'phone'            =>'Phone', 
             'logo'             =>'Logo',
             'icon'             =>'Icon', 
         ];
@@ -53,6 +59,8 @@ class SettingsController extends Controller
            $this->validate(request(),$rules , [] ,$names);
 
            $setting->put('name' , request('name'));
+           $setting->put('description' , request('description'));
+           $setting->put('author' , request('author'));
 
 
 

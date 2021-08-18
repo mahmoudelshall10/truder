@@ -28,7 +28,8 @@
                         <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                             <img src="{{url('/').'/'.Auth::user()->photo}}" class="img-fluid pr-2" alt="{{explode(' ',Auth::user()->name)[0]}}">
                         </div>
-					</div>
+					          </div>
+                    
                     <br>
                     <div class="form-group">    
                         <button type="submit" class="btn btn-primary">Submit</button>

@@ -40,6 +40,7 @@
                   @can('admin.blocks.active')
                   <th>Active</th>
                   @endcan
+                  <th>Photo</th>
                   <th>Created By</th>
                   <th>Action</th>
                 </tr>
@@ -56,6 +57,7 @@
                       </form>
                     </td>
                   @endcan
+                  <td><img style="height: 50px;width:150px" src="{{url('/').'/'.$block->photo}}" class="img-fluid pr-2" alt="{{$block->name}}"></td>
                   <td>{{ $block->createdBy->name }}</td>
                     <td>
                         @can('admin.blocks.show')

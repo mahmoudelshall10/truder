@@ -13,8 +13,8 @@
               @can('admin.dashboards.index')
                 <li class="breadcrumb-item"><a href="{{route('admin.dashboards.index')}}">Home</a></li>
               @endcan
-              @can('admin.articles.index')
-                <li class="breadcrumb-item"><a href="{{route('admin.articles.index')}}">Article</a></li>
+              @can('admin.pages.index')
+                <li class="breadcrumb-item"><a href="{{route('admin.pages.index')}}">Page</a></li>
               @endcan
               <li class="breadcrumb-item active">Show</li>
             </ol>
@@ -30,19 +30,17 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">{{ $article->title }}</h3>
+              <h3 class="card-title">{{ $page->name }}</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                <div class="row">
                    <div class="col-lg-6">
-                        <p><strong>Created By:</strong> {{ $article->createdBy->name }}</p>
-                        <p><strong>Post:</strong>
-                        {!! $article->post !!}
-                      </p>
-                   </div>
-                   <div class="col-lg-6">
-                        <p><strong>Category:</strong> {{ $article->category->name }}</p>
+                        <p><strong>Created By:</strong> {{ $page->createdBy->name }}</p>
+                        <p><strong>URL:</strong> <a href="{{ $page->url }}">{{ $page->name }}</a></p>
+                      </div>
+                      <div class="col-lg-6">
+                       <p><strong>Slug:</strong> {{ $page->slug }}</p>
                    </div>
                </div>
             </div>
