@@ -42,15 +42,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($blocks->manyblocks as $block)
+                @foreach ($blocks->blocks as $block)
                 <tr>
-                  <td>{{ $block->block->name }}</td>
+                  <td>{{ $block->name }}</td>
                   <td>
                       @can('admin.pages.blocks.show')
-                        <a href="{{route('admin.pages.blocks.show',[$block->page_id,$block->block_id])}}"><i class="fas fa-eye"></i></a>
+                        <a href="{{route('admin.pages.blocks.show',[$block->pivot->page_id,$block->pivot->block_id])}}"><i class="fas fa-eye"></i></a>
                       @endcan
                       @can('admin.pages.blocks.edit')
-                        <a href="{{route('admin.pages.blocks.edit',[$block->page_id,$block->block_id])}}"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="{{route('admin.pages.blocks.edit',[$block->pivot->page_id,$block->pivot->block_id])}}"><i class="fas fa-pencil-alt"></i></a>
                       @endcan
                   </td>
                 </tr>

@@ -47,7 +47,7 @@
 
                   <div class="form-group">
                     <label for="exampleInputLayout">Layout</label>
-                    <textarea name="layout" id="" cols="30" rows="10" class="form-control textarea" placeholder="Enter Layout">{{ old('layout') }}</textarea>
+                    <input type="text" name="layout" class="form-control" value="{{ old('layout') }}" placeholder="Enter Layout">
                   </div>
 
                   <div class="form-group">

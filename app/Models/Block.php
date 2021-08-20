@@ -17,7 +17,7 @@ class Block extends Model
      */
     public function pages()
     {
-        return $this->belongsToMany(PageBlocks::class, 'page_blocks','block_id' ,'page_id')->withTimeStamps();
+        return $this->belongsToMany(Page::class, 'page_blocks','block_id' ,'page_id')->withTimeStamps();
     }
 
     public function createdBy()

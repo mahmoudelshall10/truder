@@ -42,6 +42,31 @@
                     </div>
 
                     <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" name="email" class="form-control" placeholder="Enter Email" value="{{settings('email')}}"/>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Facebook</label>
+                      <input type="text" name="facebook" class="form-control" placeholder="Enter Facebook" value="{{settings('facebook')}}"/>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Twitter</label>
+                      <input type="text" name="twitter" class="form-control" placeholder="Enter Twitter" value="{{settings('twitter')}}"/>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Skype</label>
+                      <input type="text" name="skype" class="form-control" placeholder="Enter Skype" value="{{settings('skype')}}"/>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Address</label>
+                      <input type="text" name="address" class="form-control" placeholder="Enter Address" value="{{settings('address')}}"/>
+                    </div>
+
+                    <div class="form-group">
                         <label>Description</label>
                         <input type="text" name="description" class="form-control" placeholder="Enter Description" value="{{settings('description')}}"/>
                     </div>

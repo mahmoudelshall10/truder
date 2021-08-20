@@ -47,6 +47,11 @@
                   </div>
 
                   <div class="form-group">
+                    <label for="exampleInputLayout">Layout</label>
+                    <input type="text" name="layout" class="form-control" value="{{ $block->layout }}" placeholder="Enter Layout">
+                  </div>
+
+                  <div class="form-group">
                     <label for="exampleInputFile">File input</label>
                     <div class="input-group">
                       <div class="custom-file">

@@ -18,8 +18,6 @@ Vue.component("v-errors", ValidationErrors);
 Vue.component('FooterComponent',FooterComponent);
 Vue.component('HeaderComponent',HeaderComponent);
 
-// Vue.component('FooterComponent', require('./views/layouts/Footer.vue').default);
-// Vue.component('HeaderComponent', require('./views/layouts/Header.vue').default);
 
 window.axios.interceptors.response.use(
     response => {

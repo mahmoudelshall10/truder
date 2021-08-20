@@ -23,7 +23,7 @@ class Page extends Model
      */
     public function blocks()
     {
-        return $this->belongsToMany(PageBlocks::class, 'page_blocks', 'page_id', 'block_id')
+        return $this->belongsToMany(Block::class, 'page_blocks', 'page_id', 'block_id')
         ->withTimeStamps();
     }
 
@@ -45,5 +45,9 @@ class Page extends Model
     public function parent()
     {
         return $this->belongsTo(Page::class, 'parent_id');
+    }
+
+    public function scopeSearchByPageName($query, $page_name){
+        return $query->where('name', 'LIKE', "%{$page_name}%")->get(); 
     }
 }

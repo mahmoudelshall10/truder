@@ -32,7 +32,7 @@
             <!-- Preloader -->
              <div class="preloader"></div>
 
-             <header-component :phone={{ settings('phone') }} logo="{{url('/').'/'.settings('logo')}}" :site_name="{{ settings('name') }}"></header-component>
+             <header-component :phone={{ settings('phone') }} logo="{{url('/').'/'.settings('logo')}}" site_name="{{ settings('name') }}"></header-component>
              <!-- ================== -->
              <!-- site-content start -->
              <main class="site-content">
@@ -43,7 +43,7 @@
             
             <!-- ============ -->
             <!-- footer start -->
-            <footer-component></footer-component>
+            <footer-component :phone={{ settings('phone') }} :date={{ date('Y') }} email={{ settings('email') }} twitter={{ settings('twitter') }} skype={{ settings('skype') }} address={{ settings('address') }} facebook={{ settings('facebook') }} ></footer-component>
              <!-- footer end -->
              <!-- ========== -->
          </div>

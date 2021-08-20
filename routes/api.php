@@ -19,9 +19,11 @@ Config::set('auth.defaults.guard','api');
 Route::post('register', 'AuthController@register')->name('register'); 
 Route::post('login', 'AuthController@authenticate')->name('login');
 
-// middleware auth-api
+Route::apiResource('pages','PageController')->only(['index','show']);
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::get('search','PageController@searchByName')->name('searchByName');
+
+// middleware auth-api
 
     Route::get('auth/me', 'AuthController@me')->name('me');
     
@@ -34,5 +36,4 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('auth/reset-password', 'AuthController@resetPassword')->name('resetPassword');
     
     Route::post('auth/logout', 'AuthController@logout')->name('logout');
-    
-});
+

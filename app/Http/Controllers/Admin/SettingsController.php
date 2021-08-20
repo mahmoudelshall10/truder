@@ -39,6 +39,11 @@ class SettingsController extends Controller
         $rules = 
         [
             'name'             => 'nullable|string', 
+            'address'          => 'nullable|string', 
+            'facebook'         => 'nullable|string', 
+            'twitter'          => 'nullable|string', 
+            'skype'            => 'nullable|string', 
+            'email'            => 'nullable|email', 
             'description'      => 'nullable|string', 
             'author'           => 'nullable|string', 
             'logo'             => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
@@ -49,6 +54,11 @@ class SettingsController extends Controller
         $names = 
         [
             'name'             =>'Name', 
+            'facebook'         =>'Facebook',
+            'twitter'          =>'Twitter',
+            'skype'            =>'Skype',
+            'email'            =>'Email', 
+            'address'          =>'Address', 
             'description'      =>'Description', 
             'author'           =>'Author', 
             'phone'            =>'Phone', 
@@ -59,6 +69,13 @@ class SettingsController extends Controller
            $this->validate(request(),$rules , [] ,$names);
 
            $setting->put('name' , request('name'));
+
+           $setting->put('facebook' , request('facebook'));
+           $setting->put('twitter' , request('twitter'));
+           $setting->put('skype' , request('skype'));
+           
+           $setting->put('email' , request('email'));
+           $setting->put('address' , request('address'));
            $setting->put('description' , request('description'));
            $setting->put('author' , request('author'));
 

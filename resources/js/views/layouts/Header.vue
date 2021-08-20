@@ -25,16 +25,18 @@
 
                         <div class="navbar-collapse navbar-collapse-one collapse clearfix">
                             <ul class="navigation clearfix">
-                                <li class="current-menu-item"><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="service.html">service</a></li>
-                                <li class="dropdown"><a href="#">pages</a>
-                                    <ul>
-                                        <li><a href="team.html">Team</a></li>
-                                        <li><a href="404.html">404</a></li>
-                                    </ul>
+                                <li v-for="(block,index) in blocks" :key="'block'+index" exc>
+                                    <router-link :to="block.url" active="current-menu-item">{{block.name}}</router-link>
                                 </li>
-                                <li><a href="contact.html">contact</a></li>
+                                <li v-if="!isLoggedIn">
+                                    <router-link :to="{ name: 'register' }" >Register</router-link>
+                                </li>
+                                <li v-if="!isLoggedIn">
+                                    <router-link :to="{ name: 'login' }">Login</router-link>
+                                </li>
+                                <li v-if="isLoggedIn">
+                                    <a href="#" @click.prevent="logout" >Logout</a>
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -55,7 +57,54 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { getStateToken, removeStateToken } from "./../../auth";
 export default {
-    props:['logo','phone','site_name']
+    props:['logo','phone','site_name'],
+    data(){
+        return {
+            loading:false,
+            blocks:null
+        }
+    },
+    computed: {
+        ...mapState({
+            isLoggedIn: "isLoggedIn",
+        })
+    },
+    created(){
+        this.loading = true;
+        axios.get("/api/pages").then(res => {
+            this.loading = false;
+            this.blocks = res.data.data;
+        })
+        
+    },
+    methods:{
+        async logout() {
+            try {
+                axios.post(
+                    "/api/auth/logout",
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getStateToken()}`
+                        }
+                    }
+                );
+
+                this.$store.dispatch("logout");
+                removeStateToken();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 }
 </script>
+
+<style scoped>
+a{
+    text-decoration: none;
+}
+</style>

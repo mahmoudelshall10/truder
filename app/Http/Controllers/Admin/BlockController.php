@@ -112,27 +112,35 @@ class BlockController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $block             = Block::find($id);
+
         $rules = 
         [
             'name'     => 'required|string|max:191|unique:blocks,name,'.$id,
-            'photo'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'photo'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'layout'   => 'required',
         ];
+        if($request->photo){
+            $rules['photo'] = 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096';
+        }
 
         $names = 
         [
             'name'   => 'Name',
-            'photo'  => 'Photo'
+            'photo'  => 'Photo',
+            'layout' => 'Layout'
         ];
 
         $this->validate(request(),$rules, [],$names);
 
-        $block             = Block::find($id);
         $block->name       = $request->name;
-        if($block->photo != null)
+        $block->layout     = html_entity_decode($request->layout);
+        if($request->photo != null)
         {
             File::delete($block->photo); // delete previous image from folder   
+            $block->photo  = storeImage($request ,'photo' , 'storage/app/blocks_photos/', $block->created_by, 'blocks');
         }
-        $block->photo  = storeImage($request ,'photo' , 'storage/app/blocks_photos/', $block->created_by, 'blocks');
         $block->update();
 
         return redirect()->route('admin.blocks.index')
@@ -148,6 +156,10 @@ class BlockController extends Controller
     public function destroy($id)
     {
         $block   = Block::find($id);
+        if($block->photo != null)
+        {
+            File::delete($block->photo); // delete previous image from folder   
+        }
         $block->pages()->detach();
         $block->delete();
 

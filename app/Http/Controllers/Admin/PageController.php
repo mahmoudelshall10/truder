@@ -63,7 +63,7 @@ class PageController extends Controller
             'name'      => 'required|string|unique:pages,name|max:191',
             'slug'      => 'required|string|unique:pages,slug|max:191',
             'url'       => 'required|string|unique:pages,url|max:191',
-            'blocks'    => 'required|array|max:1',
+            'blocks'    => 'required|array|min:1',
             'blocks.*'  => 'required|integer|exists:blocks,id'
         ];
 
@@ -123,10 +123,10 @@ class PageController extends Controller
     public function edit($id)
     {
         $page = Page::find($id);
-        $pageblocks = PageBlocks::where('block_id',$id)->pluck('block_id')->toArray();
+        $pageblocks = PageBlocks::where('page_id',$id)->pluck('block_id')->toArray();
         $blocks = Block::where('active',1)->get();
         $parent_page = Page::where('active',1)->get(); 
-        return view('admin.pages.edit',compact(['page','blocks','pageblocks'],'parent_page'));
+        return view('admin.pages.edit',compact(['page','blocks','pageblocks','parent_page']));
     }
 
     /**
@@ -145,7 +145,7 @@ class PageController extends Controller
             'name'     => 'required|string|max:191|unique:pages,name,'.$id,
             'slug'     => 'required|string|max:191|unique:pages,slug,'.$id,
             'url'      => 'required|string|max:191|unique:pages,url,'.$id,
-            'blocks'   => 'required|array|max:1',
+            'blocks'   => 'required|array|min:1',
             'blocks.*' => 'required|integer|exists:blocks,id'
         ];
 
@@ -217,7 +217,7 @@ class PageController extends Controller
 
     public function pageBlockIndex($id)
     {
-        $blocks   = Page::with('manyblocks')->find($id);
+        $blocks   = Page::with('blocks')->find($id);
         return view('admin.pages.blocks.index',compact('blocks'));
     }
 

@@ -44,25 +44,25 @@
                             <div class="footer-contact">
                                 <p>
                                     <i class="icofont-location-pin"></i>
-                                    <span>622 Dixie Path , South obinches, UT 98336</span>
+                                    <span>{{ address }}</span>
                                 </p>
                                 <p>
                                     <i class="icofont-ui-call"></i>
-                                    <span>(00) 86 95 78 69</span>
+                                    <span>0{{ phone }}</span>
                                 </p>
                                 <p>
                                     <i class="icofont-email"></i>
-                                    <span>support24@gmail.com</span>
+                                    <span>{{ email }}</span>
                                 </p>
                             </div>
                             <div class="footer-social">
-                                <a href="https://www.facebook.com/" target="_blank">
+                                <a :href="facebook" target="_blank">
                                     <i class="icofont-facebook"></i>
                                 </a>
-                                <a href="https://twitter.com/home" target="_blank">
+                                <a :href="twitter" target="_blank">
                                     <i class="icofont-twitter"></i>
                                 </a>
-                                <a href="skype:robert-biswas?chat">
+                                <a :href="skype">
                                     <i class="icofont-skype"></i>
                                 </a>
                             </div>
@@ -85,11 +85,18 @@
                         <div class="footer-col">
                             <h2>Quick Link</h2>
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="service.html">Services</a></li>
-                                <li><a href="team.html">Team</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li v-for="(page,index) in pages" :key="'page'+index">
+                                    <router-link :to="page.url">{{page.name}}</router-link>
+                                </li>
+                                <li v-if="!isLoggedIn">
+                                    <router-link :to="{ name: 'register' }" >Register</router-link>
+                                </li>
+                                <li v-if="!isLoggedIn">
+                                    <router-link :to="{ name: 'login' }">Login</router-link>
+                                </li>
+                                <li v-if="isLoggedIn">
+                                    <a href="#" @click.prevent="logout" >Logout</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -99,7 +106,7 @@
         <!-- /.footer-middle -->
         <div class="footer-bottom">
             <div class="container">
-                <p>Copyright © <span>2021</span> | All Rights Reserved.</p>
+                <p>Copyright © <span>{{ date }}</span> | All Rights Reserved.</p>
             </div>
         </div>
         <!-- /.footer-bottom -->
@@ -109,8 +116,56 @@
 </template>
 
 <script>
-export default{
+import { mapState } from "vuex";
+import { getStateToken, removeStateToken } from "./../../auth";
+export default {
+    props:{
+        address:String,
+        phone:Number,
+        date:Number,
+        twitter:String,
+        facebook:String,
+        skype:String,
+        email:String,
+    },
+    data(){
+        return {
+            loading:false,
+            pages:null,
+        }
+    },
+    computed: {
+        ...mapState({
+            isLoggedIn: "isLoggedIn",
+        })
+    },
+    created(){
+        this.loading = true;
+        axios.get("/api/pages").then(res => {
+            this.loading = false;
+            this.pages = res.data.data;
+        }) 
+    },
+    methods:{
+        async logout() {
+            try {
+                axios.post(
+                    "/api/auth/logout",
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getStateToken()}`
+                        }
+                    }
+                );
 
+                this.$store.dispatch("logout");
+                removeStateToken();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 }
 </script>
 
